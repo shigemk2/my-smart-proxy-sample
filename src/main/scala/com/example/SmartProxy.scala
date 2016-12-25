@@ -23,7 +23,7 @@ case class ServiceReplyOne(replyId: String) extends ServiceReply
 case class ServiceReplyTwo(replyId: String) extends ServiceReply
 case class ServiceReplyThree(replyId: String) extends ServiceReply
 
-class ServiceProvier extends Actor {
+class ServiceProvider extends Actor {
   def receive = {
     case one: ServiceRequestOne =>
       sender ! ServiceReplyOne(one.requestId)
