@@ -3,6 +3,29 @@ package com.example
 import akka.actor._
 
 object SmartProxyDriver extends CompletableApp(6) {
+  val serviceProvider = system.actorOf(
+    Props[ServiceProvider],
+    "serviceProvider")
+
+  val proxy = system.actorOf(
+    Props(classOf[ServiceProviderProxy], serviceProvider),
+    "proxy")
+
+  val requester1 = system.actorOf(
+    Props(classOf[ServiceRequester], proxy),
+    "requester1")
+
+  val requester2 = system.actorOf(
+    Props(classOf[ServiceRequester], proxy),
+    "requester2")
+
+  val requester3 = system.actorOf(
+    Props(classOf[ServiceRequester], proxy),
+    "requester3")
+
+  requester1 ! RequestService(ServiceRequestOne("1"))
+  requester2 ! RequestService(ServiceRequestTwo("2"))
+  requester3 ! RequestService(ServiceRequestThree("3"))
 }
 
 case class RequestService(service: ServiceRequest)
