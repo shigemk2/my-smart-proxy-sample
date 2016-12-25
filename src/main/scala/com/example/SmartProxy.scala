@@ -5,6 +5,31 @@ import akka.actor._
 object SmartProxyDriver extends CompletableApp(6) {
 }
 
+class ServiceProviderProxy(serviceProvider: ActorRef) extends Actor {
+  val requesters = scala.collection.mutable.Map[String, ActorRef]()
+
+  def receive = {
+    case request: ServiceRequest =>
+      requesters(request.requestId) = sender()
+      serviceProvider ! request
+      analyzeRequest(request)
+    case reply: ServiceReply =>
+      val sender = requesters.remove(reply.replyId)
+      if (sender.isDefined) {
+        analyzeReply(reply)
+        sender.get ! reply
+      }
+  }
+
+  def analyzeReply(reply: ServiceReply) = {
+    println(s"Reply analyzed: $reply")
+  }
+
+  def analyzeRequest(request: ServiceRequest) = {
+    println(s"Request analyzed: $request")
+  }
+}
+
 case class RequestService(service: ServiceRequest)
 
 trait ServiceRequest {
