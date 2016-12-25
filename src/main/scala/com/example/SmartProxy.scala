@@ -26,6 +26,8 @@ object SmartProxyDriver extends CompletableApp(6) {
   requester1 ! RequestService(ServiceRequestOne("1"))
   requester2 ! RequestService(ServiceRequestTwo("2"))
   requester3 ! RequestService(ServiceRequestThree("3"))
+  awaitCompletion
+  println("SmartProxy: completed.")
 }
 
 case class RequestService(service: ServiceRequest)
