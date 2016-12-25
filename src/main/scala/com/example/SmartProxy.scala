@@ -22,3 +22,14 @@ trait ServiceReply {
 case class ServiceReplyOne(replyId: String) extends ServiceReply
 case class ServiceReplyTwo(replyId: String) extends ServiceReply
 case class ServiceReplyThree(replyId: String) extends ServiceReply
+
+class ServiceProvier extends Actor {
+  def receive = {
+    case one: ServiceRequestOne =>
+      sender ! ServiceReplyOne(one.requestId)
+    case two: ServiceRequestTwo =>
+      sender ! ServiceReplyTwo(two.requestId)
+    case three: ServiceRequestThree =>
+      sender ! ServiceReplyThree(three.requestId)
+  }
+}
