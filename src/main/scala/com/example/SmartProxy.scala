@@ -10,3 +10,15 @@ case class RequestService(service: ServiceRequest)
 trait ServiceRequest {
   def requestId: String
 }
+
+case class ServiceRequestOne(requestId: String) extends ServiceRequest
+case class ServiceRequestTwo(requestId: String) extends ServiceRequest
+case class ServiceRequestThree(requestId: String) extends ServiceRequest
+
+trait ServiceReply {
+  def replyId: String
+}
+
+case class ServiceReplyOne(replyId: String) extends ServiceReply
+case class ServiceReplyTwo(replyId: String) extends ServiceReply
+case class ServiceReplyThree(replyId: String) extends ServiceReply
